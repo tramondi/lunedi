@@ -3,7 +3,7 @@ o_o
 
 ## install
 ```sh
-./install.sh go
+./install.sh -a go
 ```
 
 ## launch
