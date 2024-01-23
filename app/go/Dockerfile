@@ -27,4 +27,3 @@ RUN go install golang.org/x/tools/cmd/goimports@latest
 
 ENV PATH="$PATH:/root/.local/bin"
 ENV PATH="$PATH:/root/go/bin"
-

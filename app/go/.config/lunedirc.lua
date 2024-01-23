@@ -1,3 +1,6 @@
+-- todo: save the session on exit; restore the session on start
+-- ?
+
 lvim.keys.normal_mode["<TAB>"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<S-TAB>"] = ":BufferLineCyclePrev<CR>"
 
