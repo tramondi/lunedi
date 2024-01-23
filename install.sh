@@ -35,9 +35,9 @@ function prepare_dirs() {
     mkdir -p $DATA_HOST
   fi
 
-  if [[ ! -d $CACHE_HOST ]]; then
-    mkdir -p $CACHE_HOST
-  fi
+  # if [[ ! -d $CACHE_HOST ]]; then
+  #   mkdir -p $CACHE_HOST
+  # fi
 
   if [[ ! -d $CONFIG_HOST ]]; then
     mkdir -p $CONFIG_HOST
@@ -46,7 +46,7 @@ function prepare_dirs() {
   id=$(docker create -q $IMAGE_TAG)
 
   docker cp $id:$APP_DATA_CONTAINER $APP_DATA_HOST
-  docker cp $id:$APP_CACHE_CONTAINER $APP_CACHE_HOST
+  # docker cp $id:$APP_CACHE_CONTAINER $APP_CACHE_HOST
   docker cp $id:$APP_CONFIG_CONTAINER $APP_CONFIG_HOST
 
   docker rm -v $id
@@ -71,15 +71,19 @@ function install_app() {
   cat ./app/$APP/.apprc >> $profile
 
   lvim_config=$APP_CONFIG_HOST/lvim/config.lua
+  lunedirc_load_line="dofile('$APP_CONFIG_CONTAINER/lvim/lunedirc.lua')"
 
   cp ./app/$APP/.config/lunedirc.lua $APP_CONFIG_HOST/lvim/lunedirc.lua
-  echo "" >> $lvim_config
-  echo "dofile('$APP_CONFIG_CONTAINER/lvim/lunedirc.lua')" >> $lvim_config
+  if [[ -z $(grep "$lunedirc_load_line" "$lvim_config") ]]; then
+    echo "" >> $lvim_config
+    echo "-- $TARGET: DO NOT EDIT THIS LINE" >> $lvim_config
+    echo $lunedirc_load_line >> $lvim_config
+  fi
 
-  target_bin=$HOME/.local/bin/$APP
+  target_bin=$HOME/.local/bin/$TARGET
 
   rm -f $target_bin
-  cp ./launch.sh $target_bin
+  sudo cp ./launch.sh $target_bin
 }
 
 function main() {
@@ -100,7 +104,7 @@ function main() {
 
   if $force; then
     echo "cleaning installation dirs…"
-    sudo rm -rf $APP_DATA_HOST
+    # sudo rm -rf $APP_DATA_HOST
     sudo rm -rf $APP_CACHE_HOST
     sudo rm -rf $APP_CONFIG_HOST
   fi

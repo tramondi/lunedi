@@ -22,6 +22,7 @@ docker run -it --rm \
   -w /home/lunaruser/workspace \
   -v $WORKDIR_HOST:$WORKDIR_CONTAINER \
   -v $APP_DATA_HOST:$APP_DATA_CONTAINER \
-  -v $APP_CACHE_HOST:$APP_CACHE_CONTAINER \
   -v $APP_CONFIG_HOST:$APP_CONFIG_CONTAINER \
-  lunedi:go sh -ueic 'lvim'
+  lunedi:$1 sh -ueic 'lvim'
+
+  # -v $APP_CACHE_HOST:$APP_CACHE_CONTAINER \
