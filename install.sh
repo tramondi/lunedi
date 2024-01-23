@@ -83,7 +83,7 @@ function install_app() {
   target_bin=$HOME/.local/bin/$TARGET
 
   rm -f $target_bin
-  sudo cp ./launch.sh $target_bin
+  cp ./launch.sh $target_bin
 }
 
 function main() {
